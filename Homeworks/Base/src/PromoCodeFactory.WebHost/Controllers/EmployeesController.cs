@@ -77,7 +77,24 @@ namespace PromoCodeFactory.WebHost.Controllers
         /// <param name="employee"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentNullException"></exception>
-
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///        "firstName": "John",
+        ///        "lastName": "Smith",
+        ///        "email": "johnsmith@somemail.com",
+        ///         "roles": [
+        ///             {
+        ///                 "id": "00000000-0000-0000-0000-000000000000",
+        ///                 "name": "string",
+        ///                 "description": "string"
+        ///             }
+        ///         ],
+        ///        "appliedPromocodesCount": 0
+        ///     }
+        ///
+        /// </remarks>
         [HttpPost]
         public async Task<ActionResult<EmployeeResponse>> CreateEmployeeAsync([FromBody] Employee employee)//Model Binding
         {
@@ -86,23 +103,50 @@ namespace PromoCodeFactory.WebHost.Controllers
                 throw new ArgumentNullException(nameof(employee),"Не заданы данные нового сотрудника");
             }
             var newEmployee = await _employeeRepository.CreateAsync(employee);
-
-            return CreatedAtAction(nameof(CreateEmployeeAsync), newEmployee);
-        }
+            try
+                {
+                  var res =  CreatedAtAction(nameof(CreateEmployeeAsync), newEmployee);
+                  return Ok(res);
+                }
+                catch (InvalidOperationException exception)
+                {
+                    return BadRequest(exception.Message);
+                }
+            }
         /// <summary>
         /// Обновление данных сотрудника 
         /// </summary>
         /// <param name="id"></param>
         /// <param name="employee"></param>
         /// <returns></returns>
-        
+        /// <remarks>
+        /// Sample request:
+        ///
+        ///     {
+        ///        "firstName": "Patrick",
+        ///        "lastName": "Kane",
+        ///        "email": "patrickkane@somemail.com",
+        ///         "roles": [
+        ///             {
+        ///                 "id": "00000000-0000-0000-0000-000000000000",
+        ///                 "name": "string",
+        ///                 "description": "string"
+        ///             }
+        ///         ],
+        ///        "appliedPromocodesCount": 0
+        ///     }
+        ///
+        /// </remarks>
+        /// 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateEmployee(Guid id, [FromBody] Employee employee) //Model Binding
         {
-            if (employee == null || employee.Id != id)
+            if (employee == null)
             {
                 return BadRequest("Не заданы данные сотрудника для обновления"); // Ошибка! HTTP-ответ с кодом состояния Bad Request (400) 
             }
+
+            employee.Id = id;
 
             try
             {
