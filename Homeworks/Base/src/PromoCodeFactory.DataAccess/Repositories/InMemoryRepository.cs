@@ -10,17 +10,15 @@ namespace PromoCodeFactory.DataAccess.Repositories
 {
     public class InMemoryRepository<T> : IRepository<T> where T : BaseEntity
     {
-        private List<T> _data; //Внутренний список для хранения данных
-        protected IEnumerable<T> Data => _data.AsEnumerable(); //обеспечиваем инкапсуляцию 
-
+        protected List<T> Data { get; set; }  // используем List<T> вместо Enumerable<T> для удобства
         public InMemoryRepository(IEnumerable<T> data)
         {
-            _data = data.ToList();
+            Data = data.ToList();
         }
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
-            return Task.FromResult(Data);
+            return Task.FromResult(Data.AsEnumerable());
         }
 
         public Task<T> GetByIdAsync(Guid id)
@@ -34,22 +32,22 @@ namespace PromoCodeFactory.DataAccess.Repositories
             {
                 entity.Id = Guid.NewGuid();
             }
-            _data.Add(entity);
+            Data.Add(entity);
             return Task.FromResult(entity);
         }
         public Task DeleteAsync(Guid id)
         {
-            _data.Remove(_data.FirstOrDefault(x => x.Id == id));
+            Data.Remove(Data.FirstOrDefault(x => x.Id == id));
             return Task.CompletedTask;
         }
         public Task UpdateAsync(T entity)
         {
-            var index = _data.FindIndex(x => x.Id == entity.Id);
+            var index = Data.FindIndex(x => x.Id == entity.Id);
             if (index < 0)
             {
                 throw new InvalidOperationException($"Элемент списка с кодом {entity.Id} не найден");
             }
-            _data[index] = entity;
+            Data[index] = entity;
             return Task.CompletedTask;
         }
 

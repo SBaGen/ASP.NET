@@ -100,7 +100,7 @@ namespace PromoCodeFactory.WebHost.Controllers
         {
             if (employee == null)
             {
-                throw new ArgumentNullException(nameof(employee),"Не заданы данные нового сотрудника");
+                BadRequest("Не заданы данные нового сотрудника");
             }
             var newEmployee = await _employeeRepository.CreateAsync(employee);
             try
