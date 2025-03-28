@@ -11,21 +11,51 @@ namespace PromoCodeFactory.DataAccess.Repositories
         : IRepository<T>
         where T : BaseEntity
     {
-        protected IEnumerable<T> Data { get; set; }
+        protected List<T> Data { get; set; }  // используем List<T> вместо Enumerable<T> для удобства
 
         public InMemoryRepository(IEnumerable<T> data)
         {
-            Data = data;
+            Data = data.ToList();
         }
 
         public Task<IEnumerable<T>> GetAllAsync()
         {
-            return Task.FromResult(Data);
+            return Task.FromResult(Data.AsEnumerable());
         }
 
         public Task<T> GetByIdAsync(Guid id)
         {
             return Task.FromResult(Data.FirstOrDefault(x => x.Id == id));
+        }
+
+        public Task<T> CreateAsync(T entity)
+        {
+            if (entity.Id == Guid.Empty)
+            {
+                entity.Id = Guid.NewGuid();
+            }
+            Data.Add(entity);
+            return Task.FromResult(entity);
+        }
+        public Task DeleteAsync(T entity)
+        {
+            Data.Remove(entity);
+            return Task.CompletedTask;
+        }
+        public Task UpdateAsync(T entity)
+        {
+            var index = Data.FindIndex(x => x.Id == entity.Id);
+            if (index < 0)
+            {
+                throw new InvalidOperationException($"Элемент списка с кодом {entity.Id} не найден");
+            }
+            Data[index] = entity;
+            return Task.CompletedTask;
+        }
+
+        public Task SaveChangesAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 }

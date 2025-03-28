@@ -13,9 +13,12 @@ namespace PromoCodeFactory.Core.Domain.Administration
         public string FullName => $"{FirstName} {LastName}";
 
         public string Email { get; set; }
-
         public Role Role { get; set; }
+        public Guid RoleId { get; set; }
 
         public int AppliedPromocodesCount { get; set; }
+
+        public int fakefield { get; set; } = 0;
+
     }
 }

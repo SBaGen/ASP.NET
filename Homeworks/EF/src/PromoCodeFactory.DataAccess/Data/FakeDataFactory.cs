@@ -64,7 +64,6 @@ namespace PromoCodeFactory.DataAccess.Data
                 Name = "Дети",
             }
         };
-
         public static IEnumerable<Customer> Customers
         {
             get
@@ -78,12 +77,86 @@ namespace PromoCodeFactory.DataAccess.Data
                         Email = "ivan_sergeev@mail.ru",
                         FirstName = "Иван",
                         LastName = "Петров",
+                        CustomerPreferences =  new List<CustomerPreference>
+                        { 
+                            new CustomerPreference()
+                            {
+                                Id = Guid.NewGuid(),
+                                CustomerId = customerId,
+                                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Театр").Id
+                            }
+                        }
                         //TODO: Добавить предзаполненный список предпочтений
                     }
                 };
-
                 return customers;
             }
         }
+        public static IEnumerable<PromoCode> PromoCodes => new List<PromoCode>()
+        {
+            new PromoCode()
+            {
+                Id = Guid.Parse("CC199AB8-7412-4729-A1D4-577A6AC8452D"),
+                BeginDate = DateTime.Now,
+                EndDate = DateTime.Now.AddMonths(1),
+                Code = "123456",
+                ServiceInfo = "Скидка 10%",
+                PartnerName = "Театр",
+                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Театр").Id,
+                CustomerId = Customers.FirstOrDefault().Id
+            },
+        };
+        public static IEnumerable<CustomerPreference> CustomerPreferences => new List<CustomerPreference>()
+        {
+            new CustomerPreference()
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = Customers.FirstOrDefault().Id,
+                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Театр").Id
+            },
+            new CustomerPreference()
+            {
+                Id = Guid.NewGuid(),
+                CustomerId = Customers.FirstOrDefault().Id,
+                PreferenceId = Preferences.FirstOrDefault(x => x.Name == "Дети").Id
+            },
+        };
+
+
+        public static void SeedData(DatabaseContext context)
+        {
+            if (!context.Employees.Any())
+            {
+                context.Employees.AddRange(Employees);
+                context.SaveChanges();
+            }
+            if (!context.Roles.Any())
+            {
+                context.Roles.AddRange(Roles);
+                context.SaveChanges();
+            }
+            if (!context.Preferences.Any())
+            {
+                context.Preferences.AddRange(Preferences);
+                context.SaveChanges();
+            }
+            if (!context.Customers.Any())
+            {
+                context.Customers.AddRange(Customers);
+                context.SaveChanges();
+            }
+            if (!context.PromoCodes.Any())
+            {
+                context.PromoCodes.AddRange(PromoCodes);
+                context.SaveChanges();
+            }
+            if (!context.CustomerPreferences.Any())
+            {
+                context.CustomerPreferences.AddRange(CustomerPreferences);
+                context.SaveChanges();
+            }
+        }
+
+
     }
 }
