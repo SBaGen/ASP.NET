@@ -11,8 +11,8 @@ using PromoCodeFactory.DataAccess;
 namespace PromoCodeFactory.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250327161108_addFakefield")]
-    partial class addFakefield
+    [Migration("20250329171147_updatefieldlength")]
+    partial class updatefieldlength
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -45,9 +45,6 @@ namespace PromoCodeFactory.DataAccess.Migrations
 
                     b.Property<Guid>("RoleId")
                         .HasColumnType("TEXT");
-
-                    b.Property<int>("fakefield")
-                        .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
 

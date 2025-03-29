@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace PromoCodeFactory.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class Initial : Migration
+    public partial class init : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -30,7 +30,7 @@ namespace PromoCodeFactory.DataAccess.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "TEXT", nullable: false),
-                    Name = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true)
+                    Name = table.Column<string>(type: "TEXT", maxLength: 250, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -109,7 +109,7 @@ namespace PromoCodeFactory.DataAccess.Migrations
                     PartnerName = table.Column<string>(type: "TEXT", maxLength: 100, nullable: true),
                     PartnerManagerId = table.Column<Guid>(type: "TEXT", nullable: true),
                     PreferenceId = table.Column<Guid>(type: "TEXT", nullable: true),
-                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: true)
+                    CustomerId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {

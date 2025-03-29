@@ -30,7 +30,6 @@ namespace PromoCodeFactory.WebHost
         }
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
             services.AddControllers()
                 .AddJsonOptions(options =>
                 {

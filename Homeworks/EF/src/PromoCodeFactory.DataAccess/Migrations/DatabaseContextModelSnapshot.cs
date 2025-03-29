@@ -43,9 +43,6 @@ namespace PromoCodeFactory.DataAccess.Migrations
                     b.Property<Guid>("RoleId")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("fakefield")
-                        .HasColumnType("INTEGER");
-
                     b.HasKey("Id");
 
                     b.HasIndex("RoleId");

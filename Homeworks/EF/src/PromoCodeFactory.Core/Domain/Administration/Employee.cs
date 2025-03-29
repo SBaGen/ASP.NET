@@ -18,7 +18,5 @@ namespace PromoCodeFactory.Core.Domain.Administration
 
         public int AppliedPromocodesCount { get; set; }
 
-        public int fakefield { get; set; } = 0;
-
     }
 }

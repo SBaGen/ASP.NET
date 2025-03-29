@@ -11,8 +11,8 @@ using PromoCodeFactory.DataAccess;
 namespace PromoCodeFactory.DataAccess.Migrations
 {
     [DbContext(typeof(DatabaseContext))]
-    [Migration("20250326104036_Initial")]
-    partial class Initial
+    [Migration("20250329170809_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -120,7 +120,7 @@ namespace PromoCodeFactory.DataAccess.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(100)
+                        .HasMaxLength(250)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
