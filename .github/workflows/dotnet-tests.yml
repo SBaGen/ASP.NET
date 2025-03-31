@@ -25,4 +25,4 @@ jobs:
     - name: Build
       run: dotnet build ./Homeworks/UnitTests/src/PromoCodeFactory.sln --no-restore
     - name: Test
-      run: dotnet test ./Homeworks/UnitTests/src/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj --no-restore
+      run: dotnet test ./Homeworks/UnitTests/src/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj --no-restore --logger "console;verbosity=detailed"
