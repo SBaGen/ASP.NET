@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore ./Homeworks/UnitTests/src/PromoCodeFactory.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build ./Homeworks/UnitTests/src/PromoCodeFactory.sln --no-restore
     - name: Test
       run: dotnet test ./Homeworks/UnitTests/src/PromoCodeFactory.UnitTests/PromoCodeFactory.UnitTests.csproj --no-restore
